@@ -1,12 +1,25 @@
-import { useState } from "react";
-import "./App.css";
+import "./App.scss";
+import { startConnection } from "./config/connection";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="App">
-      <button>Press Button</button>
+    <div className="pressinggame">
+      <div className="pressinggame__content">
+        <a className="pressinggame__logo">
+          <small>Pressing game by</small>
+          <img
+            src={"https://www.oneof.com/wp-content/uploads/2022/03/ONO.svg"}
+            width={100}
+            height={100}
+          />
+        </a>
+        <button
+          className="pressinggame__button"
+          onClick={() => startConnection()}
+        >
+          Press Button
+        </button>
+      </div>
     </div>
   );
 }
