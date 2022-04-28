@@ -17,7 +17,6 @@ export const startConnection = async () => {
   // send ether and pay to change state within the blockchain.
   // For this, you need the account signer...
   const signer = provider.getSigner();
-  console.log("getAddress: ", await signer.getAddress());
   loadContract(provider, signer);
 };
 

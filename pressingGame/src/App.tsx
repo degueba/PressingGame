@@ -37,7 +37,7 @@ function App() {
 
   useEffect(() => {
     startConnection().then(watchBlocks);
-  });
+  }, []);
 
   return (
     <div className="pressinggame">
