@@ -7,8 +7,4 @@ library Lib {
         uint256 amount;
         uint256 blockNumber;
     }
-
-    struct Winners {
-        uint256 amount;
-    }
 }

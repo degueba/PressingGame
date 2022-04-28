@@ -25,6 +25,11 @@
     > small {
       margin-right: 10px;
     }
+
+    > img {
+      width: 100px;
+      height: 100px;
+    }
   }
 
   &__button {
@@ -34,6 +39,10 @@
     color: #ffffff;
     font-family: "Apex";
     font-size: 1.4rem;
+
+    &--claimtreasure {
+      background: $oo-green;
+    }
 
     &:hover {
       background: $oo-white;
