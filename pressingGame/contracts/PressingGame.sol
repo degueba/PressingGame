@@ -3,8 +3,12 @@ pragma solidity ^0.8.0;
 
 import {Lib} from "./libraries/Lib.sol";
 import {SafeMath} from "./utils/SafeMath.sol";
+import {ReentrancyGuard} from "./utils/ReentrancyGuard.sol";
 
-contract PressingGame {
+/**
+    ReentrancyGuard : A modifier that can prevent reentrancy during certain functions. 
+**/ 
+contract PressingGame is ReentrancyGuard {
     uint256 private constant GAME_AMOUNT_PARTICIPATION = 1000000000000000;
     using SafeMath for uint256;
 
@@ -19,10 +23,11 @@ contract PressingGame {
     /**
         @notice Function with the ability to make a deposit and play the game
      */
-    function pressButton() external payable returns (uint256 gameBlock){
+    function pressButton() external payable {
         require(msg.value == GAME_AMOUNT_PARTICIPATION, "Wrong amount.");
+
         if (gameInfo.amount > 0) {
-            checkGameBlockNumber();
+            validateGameFinished();
         }
             
         gameInfo.winner = msg.sender;
@@ -30,17 +35,15 @@ contract PressingGame {
         gameInfo.blockNumber = block.number;
         
         emit PressButton(msg.sender, gameInfo.amount, gameInfo.blockNumber);
+
     }
 
     /**
         @notice Function for winner to withdraw
         @return success  boolean to the the success
      */
-    function withdraw() public returns (bool success) {
-        // blockNumber = block.number;
-        uint256 gameBlock = gameInfo.blockNumber + 2;
-
-        require(gameBlock < block.number, "Game is not finished");
+    function withdraw() external nonReentrant returns (bool success) {
+        require(checkGameFinished(), "Game not finished");
 
         uint256 amount = gameInfo.amount;
         address winner = gameInfo.winner;
@@ -57,18 +60,15 @@ contract PressingGame {
         gameInfo.blockNumber = 0;
 
         emit Withdraw(msg.sender, amount);
+        
     }
     
     /**
      @notice Checking if the msg.sender is a winner inside our system
      */
     function checkWinner() public view returns (bool success) {
-        uint256 gameBlock = gameInfo.blockNumber + 2;
-
-        success = false;
-        
         if (gameInfo.amount > 0) {
-            if (gameBlock < block.number) {
+            if (checkGameFinished()) {
                 if (gameInfo.winner == msg.sender) {
                     success = true;
                 }
@@ -80,12 +80,8 @@ contract PressingGame {
      @notice Checking whether the game has finished
      */
     function checkFinished() public view returns (bool success) {
-        uint256 gameBlock = gameInfo.blockNumber + 2;
-
-        success = false;
-        
         if (gameInfo.amount > 0) {
-            if (gameBlock < block.number) {
+            if (checkGameFinished()) {
                 success = true;
             }
         } 
@@ -94,8 +90,18 @@ contract PressingGame {
     /**
      @notice Checking the game blocknumber
      */
-    function checkGameBlockNumber() public view {
-        uint256 addedBlockNumber = gameInfo.blockNumber.add(4);
-        require(addedBlockNumber > block.number,"Game has finished.");
+    function validateGameFinished() public view {
+        uint256 addedBlockNumber = gameInfo.blockNumber.add(3);
+        require(addedBlockNumber >= block.number,"Game has finished.");
+    }
+
+    /**
+     @notice Checking if the msg.sender is a winner inside our system
+    */
+    function checkGameFinished() public view returns (bool success) {
+        uint256 gameBlock = gameInfo.blockNumber.add(3);
+        if (gameBlock <= block.number) {
+            success = true;
+        }
     }
 }

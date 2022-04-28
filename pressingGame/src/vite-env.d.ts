@@ -1,10 +1,18 @@
 /// <reference types="vite/client" />
 
+import { ethers } from "ethers";
+
+interface ImportMetaEnv {
+  VITE_CONTRACT_ADDRESS: string | undefined;
+}
+
 declare global {
   interface Window {
-    ethereum?: any;
-    signer?: any;
-    Provider?: any;
-    Contract?: any;
+    ethereum: ExternalProvider | JsonRpcFetchFunc;
+    signer: ethers.providers.JsonRpcSigner;
+    Provider: ethers.providers.Web3Provider;
+    Contract: {
+      pressingGame: ethers.Contract;
+    };
   }
 }

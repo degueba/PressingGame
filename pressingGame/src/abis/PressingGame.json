@@ -2,8 +2,9 @@
   "event PressButton(address indexed,uint256,uint256)",
   "event Withdraw(address indexed,uint256)",
   "function checkFinished() view returns (bool)",
-  "function checkGameBlockNumber() view",
+  "function checkGameFinished() view returns (bool)",
   "function checkWinner() view returns (bool)",
-  "function pressButton() payable returns (uint256)",
+  "function pressButton() payable",
+  "function validateGameFinished() view",
   "function withdraw() returns (bool)"
 ]

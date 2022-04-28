@@ -3,31 +3,33 @@ import { useEffect, useState } from "react";
 import "./App.scss";
 import { startConnection } from "./config/connection";
 
+interface Props {}
+
 function App() {
   const [isWinner, setIsWinner] = useState<Boolean>(false);
 
-  const pressButton = async () => {
+  const pressButton = async (): Promise<void> => {
     try {
       const AMOUNT = ethers.utils.parseEther("0.001");
       await window.Contract.pressingGame.pressButton({
         value: AMOUNT,
       });
       alert("Good luck, you are in the game!");
-    } catch (e) {
+    } catch (e: any) {
       if (e.data.message.includes("Game finished")) {
         alert("Game is not finished.");
       }
     }
   };
 
-  const watchBlocks = async () => {
+  const watchBlocks = async (): Promise<void> => {
     window.Provider.on("block", async (blockNumber: number) => {
       let isWinner = await window.Contract.pressingGame.checkWinner();
       setIsWinner(isWinner);
     });
   };
 
-  const claimTreasure = async () => {
+  const claimTreasure = async (): Promise<void> => {
     const tx = await window.Contract.pressingGame.withdraw();
     if (tx) {
       alert("You have won.");
@@ -35,7 +37,7 @@ function App() {
     }
   };
 
-  useEffect(() => {
+  useEffect((): void => {
     startConnection().then(watchBlocks);
   }, []);
 
