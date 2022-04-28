@@ -23,7 +23,6 @@ function App() {
   const watchBlocks = async () => {
     window.Provider.on("block", async (blockNumber: number) => {
       let isWinner = await window.Contract.pressingGame.checkWinner();
-      console.log("isWinner: ", isWinner);
       setIsWinner(isWinner);
     });
   };
@@ -31,7 +30,7 @@ function App() {
   const claimTreasure = async () => {
     const tx = await window.Contract.pressingGame.withdraw();
     if (tx) {
-      alert("You won.");
+      alert("You have won.");
       setIsWinner(false);
     }
   };
