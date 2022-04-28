@@ -6,12 +6,9 @@ import {SafeMath} from "./utils/SafeMath.sol";
 
 contract PressingGame {
     uint256 private constant GAME_AMOUNT_PARTICIPATION = 1000000000000000;
-    // uint public blockNumber = block.number;
-
     using SafeMath for uint256;
 
     Lib.GameInfo private gameInfo;
-    // mapping(address => Lib.GameWinner) private gameWinner;
 
     /**
         @notice Events of the system
@@ -20,12 +17,9 @@ contract PressingGame {
     event Withdraw(address indexed winner, uint256 amount);
 
     /**
-        @notice Function to do the deposit
+        @notice Function with the ability to make a deposit and play the game
      */
     function pressButton() external payable returns (uint256 gameBlock){
-       //someNumber = gameInfo.blockNumber.add(4);
-        // gameBlock = gameInfo.blockNumber;
-
         require(msg.value == GAME_AMOUNT_PARTICIPATION, "Wrong amount.");
         if (gameInfo.amount > 0) {
             checkGameBlockNumber();
@@ -83,7 +77,7 @@ contract PressingGame {
     }
 
     /**
-     @notice Checking if the msg.sender is a winner inside our system
+     @notice Checking whether the game has finished
      */
     function checkFinished() public view returns (bool success) {
         uint256 gameBlock = gameInfo.blockNumber + 2;
@@ -97,8 +91,11 @@ contract PressingGame {
         } 
     }
 
+    /**
+     @notice Checking the game blocknumber
+     */
     function checkGameBlockNumber() public view {
         uint256 addedBlockNumber = gameInfo.blockNumber.add(4);
-        require(addedBlockNumber > block.number,"Seila");
+        require(addedBlockNumber > block.number,"Game has finished.");
     }
 }
