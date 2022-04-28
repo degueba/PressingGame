@@ -21,20 +21,15 @@ export const loadContract = async (
   provider: ethers.providers.Web3Provider,
   signer: ethers.providers.JsonRpcSigner
 ): Promise<void> => {
-  const PRESSING_GAME_ADDRESS = import.meta.env.VITE_CONTRACT_ADDRESS;
+  const envs: ImportMetaEnv = import.meta.env;
+  const { VITE_CONTRACT_ADDRESS } = envs;
 
-  if (!PRESSING_GAME_ADDRESS) {
+  if (!VITE_CONTRACT_ADDRESS) {
     return console.error("Error loading contract.");
   }
 
-  // let Contract: {
-  //   pressingGame: ethers.Contract | undefined;
-  // } = {
-  //   pressingGame: undefined,
-  // };
-
   const pressingGame = new ethers.Contract(
-    PRESSING_GAME_ADDRESS,
+    VITE_CONTRACT_ADDRESS,
     pressingGameFacet,
     signer
   );

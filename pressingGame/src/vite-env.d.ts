@@ -3,7 +3,7 @@
 import { ethers } from "ethers";
 
 interface ImportMetaEnv {
-  VITE_CONTRACT_ADDRESS: string | undefined;
+  VITE_CONTRACT_ADDRESS: string;
 }
 
 declare global {

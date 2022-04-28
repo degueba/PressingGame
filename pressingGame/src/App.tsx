@@ -3,8 +3,6 @@ import { useEffect, useState } from "react";
 import "./App.scss";
 import { startConnection } from "./config/connection";
 
-interface Props {}
-
 function App() {
   const [isWinner, setIsWinner] = useState<Boolean>(false);
 
