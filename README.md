@@ -5,13 +5,13 @@ The Pressing game is a decentralized application in which users compete against 
 #### _How to Start_
 
 1 step - `yarn` or `yarn build` | **Install dependencies**
-----
+--
 2 step - `yarn deploy:contract` | **Deploy Contracts and Export Contract Address (_VITE_CONTRACT_ADDRESS_) to _env.file_**
-----
+--
 3 step - `yarn test` | **Test the smart contracts**
-----
+--
 4 step - `yarn start` | **Start the dev environment with Vite and ReactTS**
-----
+--
 5 step - `yarn block` | **Generate a new block in Ganache**
 
 ### _Simple Fluxogram_
